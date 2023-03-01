@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pmsnb1/database/database_helper.dart';
 import 'package:pmsnb1/models/post_model.dart';
+import 'package:pmsnb1/widgets/item_post_widget.dart';
 
 class ListPostScreen extends StatefulWidget {
   const ListPostScreen({super.key});
@@ -19,6 +20,7 @@ class _ListPostScreenState extends State<ListPostScreen> {
     helper = database_helper();
   }
   Widget build(BuildContext context) {
+
     return FutureBuilder(
       future: helper!.GETALLPOST(),
       builder: (context, AsyncSnapshot<List<PostModel>> snapshot) {
@@ -27,7 +29,7 @@ class _ListPostScreenState extends State<ListPostScreen> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               var objPostModel = snapshot.data![index];
-              return widget;
+              return ItemPostWidget(postModel: objPostModel);
             },
           );
         } else if(snapshot.hasError){

@@ -1,6 +1,8 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:pmsnb1/screens/list_post_screen.dart';
 import 'package:pmsnb1/settings/styles.dart';
+import 'package:pmsnb1/widgets/modal_add_post.dart';
 import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
 
@@ -23,6 +25,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text('TecBook :)'),),
+      body: const ListPostScreen(),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.green,
+        onPressed: (){
+          _openCustomDialog();
+        }, 
+        icon: Icon(Icons.add_comment),
+        label: Text('Post it!')
+      ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -53,4 +64,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
+  _openCustomDialog(){
+  return showGeneralDialog(
+    context: context, 
+    barrierColor: Colors.black.withOpacity(.5),
+    transitionBuilder: (context, animation, secondaryAnimation, child) {
+      return Transform.scale(
+        scale: animation.value,
+        child: Opacity(
+          opacity: animation.value,
+          child: const ModalAddPost(),
+        ),
+      );
+    },
+    transitionDuration: Duration(milliseconds: 200),
+    barrierDismissible: true,
+    barrierLabel: '',
+    pageBuilder: ((context, animation, secondaryAnimation) {
+      return Container();
+    })
+  );
 }
+
+}
+
