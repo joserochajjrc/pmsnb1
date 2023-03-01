@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +14,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  final formKey = GlobalKey<FormState>();
   File? _image;
 
   Future getImage(ImageSource source) async {
@@ -39,6 +41,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         label: Text('Name User'),
         enabledBorder: OutlineInputBorder()
       ),
+      validator: (value) {
+        if (value != null && value.isEmpty) {
+          return 'Ingresa un nombre';
+        } else {
+          return null;
+        }
+      },
     );
 
     final txtEmail = TextFormField(
@@ -46,6 +55,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         label: Text('Email User'),
         enabledBorder: OutlineInputBorder()
       ),
+      validator: (value) {
+          if (value != null && !EmailValidator.validate(value)) {
+            return 'Ingresa un correo valido';
+          } else {
+            return null;
+          }
+        }
     );
 
     final txtPass = TextFormField(
@@ -54,14 +70,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
         label: Text('Password User'),
         enabledBorder: OutlineInputBorder()
       ),
+      validator: (value) {
+          if (value != null && value.isEmpty) {
+            return 'Ingresa una contraseña';
+          } else {
+            return null;
+          }
+      }
     );
 
     final spaceHorizontal = SizedBox(height: 15,);
-    final spaceGiant = SizedBox(height: 150,);
+    final spaceGiant = SizedBox(height: 60,);
 
     final btnRregister = ElevatedButton(
       onPressed: (){
-        
+        if (formKey.currentState!.validate()) {}
       }, 
       
       style: ElevatedButton.styleFrom(
@@ -127,35 +150,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  spaceHorizontal,
-                  spaceHorizontal,
-                  spaceHorizontal,
-                  _image != null ? Image.file(_image!, width: 150, height: 150, fit: BoxFit.cover, ) : Image.asset('assets/avatar.png', width: 150,),
-                  spaceHorizontal,
-                  spaceHorizontal,
-                  btnGallery,
-                  spaceHorizontal,
-                  btnCamera,
-                  spaceHorizontal,
-                  txtName,
-                  spaceHorizontal,
-                  txtEmail,
-                  spaceHorizontal,
-                  txtPass,
-                  spaceHorizontal,
-                  spaceHorizontal,
-                  spaceHorizontal,
-                  btnRregister,
-                  spaceGiant
-                ],
-              ),
-            ],
+          child: Form(
+            key: formKey,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    spaceHorizontal,
+                    spaceHorizontal,
+                    spaceHorizontal,
+                    ClipOval(
+                      child: _image != null ? Image.file(_image!, width: 150, height: 150, fit: BoxFit.cover, ) : 
+                      Image.asset('assets/avatar.png', width: 150,),
+                    ),
+                    spaceHorizontal,
+                    spaceHorizontal,
+                    btnGallery,
+                    spaceHorizontal,
+                    btnCamera,
+                    spaceHorizontal,
+                    txtName,
+                    spaceHorizontal,
+                    txtEmail,
+                    spaceHorizontal,
+                    txtPass,
+                    spaceHorizontal,
+                    spaceHorizontal,
+                    spaceHorizontal,
+                    btnRregister,
+                    spaceGiant
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
