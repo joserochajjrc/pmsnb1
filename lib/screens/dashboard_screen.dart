@@ -1,4 +1,5 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
+import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:pmsnb1/screens/list_post_screen.dart';
 import 'package:pmsnb1/settings/styles.dart';
@@ -16,12 +17,87 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   bool isDarkThemeEnable = false;
 
+  
+
   @override
   Widget build(BuildContext context) {
 
-    
-
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    //final theme = Theme.of(context);
+
+    final btnLince = ElevatedButton(
+      onPressed: (){
+        const primaryColour = Colors.red;
+        setState(() {});
+      }, 
+      
+      style: ElevatedButton.styleFrom(
+        elevation: 10.0,
+        textStyle: const TextStyle(color: Colors.green, fontSize: 20),
+        fixedSize: const Size(800, 60)
+      ),
+      
+      child: const Text('Lince'),
+    );  
+
+    final btnBlue = ElevatedButton(
+      onPressed: (){
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.lightBlue[800],
+          accentColor: Colors.cyan[600],
+
+          fontFamily: 'Georgia',
+
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          ),
+        );
+        setState(() {});
+      }, 
+      
+      style: ElevatedButton.styleFrom(
+        elevation: 10.0,
+        textStyle: const TextStyle(color: Colors.white, fontSize: 20),
+        fixedSize: const Size(800, 60)
+      ),
+      
+      child: const Text('Light Blue'),
+    );    
+
+    final btnRed = ElevatedButton(
+      onPressed: (){
+        //DynamicTheme.of(context)?.setTheme(AppThemes.LightRed);
+        setState(() {});
+      }, 
+      
+      style: ElevatedButton.styleFrom(
+        elevation: 10.0,
+        textStyle: const TextStyle(color: Colors.white, fontSize: 20),
+        fixedSize: const Size(800, 60)
+      ),
+      
+      child: const Text('Light Red'),
+    );  
+
+    final btnDark = ElevatedButton(
+      onPressed: (){
+        //DynamicTheme.of(context)?.setTheme(AppThemes.Dark);
+        setState(() {});
+      }, 
+      
+      style: ElevatedButton.styleFrom(
+        elevation: 10.0,
+        textStyle: const TextStyle(color: Colors.white, fontSize: 20),
+        fixedSize: const Size(800, 60)
+      ),
+      
+      child: const Text('Dark'),
+    );  
+
+    
 
     return Scaffold(
       appBar: AppBar(title: Text('TecBook :)'),),
@@ -59,6 +135,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 }),
               ),
+              //btnBlue,
+              //btnRed,
+              //btnDark,
+              btnLince,
           ],
         ),
       ),
@@ -88,4 +168,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 }
 
 }
+
+
 

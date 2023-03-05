@@ -69,6 +69,18 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
 
+    final txtAbout = Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: TextButton(
+        onPressed: (){
+          Navigator.pushNamed(context, '/onboarding');
+        },
+        child: const Text('Acerca de...',
+          style: TextStyle(decoration: TextDecoration.underline)
+        )
+      ),
+    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -84,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mobile: MobileLoginScreen(
                   spaceHorizontal: spaceHorizontal,
                   btnRegister: txtRegister,
+                  btnAbout: txtAbout,
                   txtEmail: txtEmail,
                   txtPass: txtPass,
                   btnLogin: btnLogin,
@@ -102,7 +115,45 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                             child: LoginScreenTopWidget(
                                 spaceHorizontal: spaceHorizontal,
-                                btnRegister: txtRegister))
+                                btnRegister: txtRegister,
+                                btnAbout: txtAbout))
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 450,
+                          child: LoginForm(
+                              txtEmail: txtEmail,
+                              spaceHorizontal: spaceHorizontal,
+                              txtPass: txtPass,
+                              btnLogin: btnLogin,
+                              btnGoogle: btnGoogle,
+                              btnFacebook: btnFacebook),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              tablet: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 450,
+                          child: Center(child: TopLoginImage()),
+                        ),
+                        SizedBox(
+                            child: LoginScreenTopWidget(
+                                spaceHorizontal: spaceHorizontal,
+                                btnRegister: txtRegister,
+                                btnAbout: txtAbout))
                       ],
                     ),
                   ),
@@ -144,10 +195,12 @@ class MobileLoginScreen extends StatelessWidget {
     required this.btnGoogle,
     required this.btnFacebook,
     required this.btnRegister,
+    required this.btnAbout,
   });
 
   final SizedBox spaceHorizontal;
   final Padding btnRegister;
+  final Padding btnAbout;
   final TextFormField txtEmail;
   final TextFormField txtPass;
   final SocialLoginButton btnLogin;
@@ -164,7 +217,7 @@ class MobileLoginScreen extends StatelessWidget {
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const SizedBox(height: 100, child: TopLoginImage()),
             LoginScreenTopWidget(
-                spaceHorizontal: spaceHorizontal, btnRegister: btnRegister),
+                spaceHorizontal: spaceHorizontal, btnRegister: btnRegister, btnAbout: btnAbout),
             LoginForm(
                 txtEmail: txtEmail,
                 spaceHorizontal: spaceHorizontal,
@@ -204,6 +257,7 @@ class LoginForm extends StatelessWidget {
         txtEmail,
         spaceHorizontal,
         txtPass,
+        spaceHorizontal,
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           
@@ -230,10 +284,12 @@ class LoginScreenTopWidget extends StatelessWidget {
     super.key,
     required this.spaceHorizontal,
     required this.btnRegister,
+    required this.btnAbout,
   });
 
   final SizedBox spaceHorizontal;
   final Padding btnRegister;
+  final Padding btnAbout;
 
   @override
   Widget build(BuildContext context) {
@@ -244,6 +300,7 @@ class LoginScreenTopWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             btnRegister,
+            btnAbout,
           ],
         ),
       ],
