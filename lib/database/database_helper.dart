@@ -51,7 +51,7 @@ class database_helper {
 
   Future<List<PostModel>> GETALLPOST() async {
     var conexion = await database;
-    var result = await conexion.query('tblPost');
+    var result = await conexion.query('tblPost', orderBy: 'idPost DESC');
     return result.map((post) => PostModel.fromMap(post)).toList();
   }
 }

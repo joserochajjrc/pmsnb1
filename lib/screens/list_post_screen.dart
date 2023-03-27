@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pmsnb1/database/database_helper.dart';
 import 'package:pmsnb1/models/post_model.dart';
 import 'package:pmsnb1/widgets/item_post_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/flags_provider.dart';
 
 class ListPostScreen extends StatefulWidget {
   const ListPostScreen({super.key});
@@ -21,8 +24,11 @@ class _ListPostScreenState extends State<ListPostScreen> {
   }
   Widget build(BuildContext context) {
 
+    var futPost = helper!.GETALLPOST();
+    FlagsProvider flags = Provider.of<FlagsProvider>(context);
+
     return FutureBuilder(
-      future: helper!.GETALLPOST(),
+      future: futPost,
       builder: (context, AsyncSnapshot<List<PostModel>> snapshot) {
         if( snapshot.hasData){
           return ListView.builder(

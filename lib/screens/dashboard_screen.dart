@@ -1,8 +1,10 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
+import 'package:pmsnb1/provider/flags_provider.dart';
 import 'package:pmsnb1/screens/list_post_screen.dart';
 import 'package:pmsnb1/settings/styles.dart';
+import 'package:pmsnb1/widgets/futures_modal.dart';
 import 'package:pmsnb1/widgets/modal_add_post.dart';
 import 'package:provider/provider.dart';
 import '../provider/theme_provider.dart';
@@ -97,15 +99,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: const Text('Dark'),
     );  
 
-    
+    FlagsProvider flags = Provider.of<FlagsProvider>(context);
 
     return Scaffold(
       appBar: AppBar(title: Text('TecBook :)'),),
-      body: const ListPostScreen(),
+      body: flags.getupdatePosts() == true ? const ListPostScreen() : const ListPostScreen(),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromARGB(255, 2, 88, 5),
         onPressed: (){
-          _openCustomDialog();
+          openCustomDialog(context, null);
         }, 
         icon: Icon(Icons.add_comment),
         label: Text('Post it!')
@@ -119,6 +121,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               accountName: Text('José Juan Rocha Cisneros'), 
               accountEmail: Text('19031005@itcelaya.edu.mx')
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/popular');
+              },
+              horizontalTitleGap: 0.0,
+              leading: const Icon(Icons.movie),
+              title: const Text(
+                'API Movies',
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing: const Icon(Icons.chevron_right),
             ),
             DayNightSwitcher(
                 isDarkModeEnabled: isDarkThemeEnable,
@@ -144,28 +158,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-
-  _openCustomDialog(){
-  return showGeneralDialog(
-    context: context, 
-    barrierColor: Colors.black.withOpacity(.5),
-    transitionBuilder: (context, animation, secondaryAnimation, child) {
-      return Transform.scale(
-        scale: animation.value,
-        child: Opacity(
-          opacity: animation.value,
-          child: const ModalAddPost(),
-        ),
-      );
-    },
-    transitionDuration: Duration(milliseconds: 200),
-    barrierDismissible: true,
-    barrierLabel: '',
-    pageBuilder: ((context, animation, secondaryAnimation) {
-      return Container();
-    })
-  );
-}
 
 }
 

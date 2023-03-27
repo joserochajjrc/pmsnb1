@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pmsnb1/screens/dashboard_screen.dart';
 import 'package:pmsnb1/screens/login_screen.dart';
 import 'package:pmsnb1/screens/onboarding_screen.dart';
+import 'package:pmsnb1/screens/popular_movies_screen.dart';
 import 'package:pmsnb1/screens/register_screen.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes(){
@@ -10,5 +11,6 @@ Map<String, WidgetBuilder> getApplicationRoutes(){
     '/login':(BuildContext context) => LoginScreen(), 
     '/dash':(BuildContext context) => DashboardScreen(),
     '/onboarding':(BuildContext context) => OnboardingScreen(),
+    '/popular':(BuildContext context) => const PopularMoviesScreen(),
   };
 }

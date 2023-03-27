@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pmsnb1/provider/flags_provider.dart';
 import 'package:pmsnb1/provider/theme_provider.dart';
 import 'package:pmsnb1/routes.dart';
 import 'package:pmsnb1/screens/login_screen.dart';
@@ -14,8 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(context),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider(context)),
+        ChangeNotifierProvider(create: (context) => FlagsProvider()),
+      ],
+      
       child: PMSNApp()
     );
   }
