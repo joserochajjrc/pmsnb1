@@ -48,6 +48,7 @@ dependencies:
   lottie: ^2.2.0
   shared_preferences: ^2.0.18
   http: ^0.13.5
+  syncfusion_flutter_datepicker: ^21.1.35
 dev_dependencies:
   flutter_test:
     sdk: flutter

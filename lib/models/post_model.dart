@@ -9,7 +9,7 @@ class PostModel {
     return PostModel(
       idPost: map['idPost'],
       dscPost: map['dscPost'],
-      datePost: map['datePost']
+      datePost: map['datePost'],
     );
   }
 

@@ -27,6 +27,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
     //final theme = Theme.of(context);
 
+    final spaceHorizontal = SizedBox(height: 15,);
+
     final btnLince = ElevatedButton(
       onPressed: (){
         const primaryColour = Colors.red;
@@ -99,6 +101,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: const Text('Dark'),
     );  
 
+    final btnEvents = ElevatedButton.icon(
+      onPressed: (){
+        Navigator.pushNamed(context, '/events');
+      }, 
+      style: ElevatedButton.styleFrom(
+        elevation: 10.0,
+        fixedSize: const Size(800, 60)
+      ),
+      icon: Icon(Icons.calendar_today), 
+      label: Text('Eventos'),
+    );
+
     FlagsProvider flags = Provider.of<FlagsProvider>(context);
 
     return Scaffold(
@@ -153,6 +167,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               //btnRed,
               //btnDark,
               btnLince,
+              spaceHorizontal,
+              btnEvents
           ],
         ),
       ),
