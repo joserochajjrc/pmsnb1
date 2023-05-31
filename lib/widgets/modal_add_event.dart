@@ -9,8 +9,8 @@ import '../models/post_model.dart';
 class ModalAddEvent extends StatefulWidget {
   ModalAddEvent({super.key, this.eventModel, this.fecha});
 
-  EventModel? eventModel;
-  String? fecha;
+  final EventModel? eventModel;
+  final String? fecha;
 
   @override
   State<ModalAddEvent> createState() => _ModalAddEventState();
@@ -20,7 +20,9 @@ class _ModalAddEventState extends State<ModalAddEvent> {
 
   database_helper? database;
   TextEditingController txtDescEvent = TextEditingController();
-  bool _completado=false;
+  bool completado=false;
+  DateTime selectedDate = DateTime.now();
+  String selectedDateFormat = "";
   
 
   @override
@@ -28,6 +30,27 @@ class _ModalAddEventState extends State<ModalAddEvent> {
     super.initState();
     database = database_helper();
     txtDescEvent.text = widget.eventModel != null ? widget.eventModel!.dscEvent! : '';
+
+    /*if (widget.eventModel != null) {
+      selectedDateFormat = widget.eventModel!.dateEvent!;
+      selectedDate = DateTime.parse(widget.eventModel!.dateEvent!);
+    } else {
+      if (widget.fecha != null) {
+        selectedDate = widget.fecha!;
+        //selectedDateFormat = DateFormat('yyyy-MM-dd').format(widget.fecha!);
+      } else {
+        selectedDate = DateTime.now();
+        //selectedDateFormat = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      }
+    }*/
+
+    if (widget.eventModel != null) {
+      if (widget.eventModel!.complete == 1) {
+        completado = true;
+      } else {
+        completado = false;
+      }
+    }
   }
 
   @override
@@ -37,7 +60,9 @@ class _ModalAddEventState extends State<ModalAddEvent> {
     
 
     return AlertDialog(
-      title: Text('Crear Evento'),
+      title: widget.eventModel == null 
+      ? Text('Crear Evento')
+      : Text('Editar Evento'),
       content: SizedBox(
         height: 250,
         child: Column(
@@ -48,24 +73,26 @@ class _ModalAddEventState extends State<ModalAddEvent> {
               maxLines: 5,
             ),
             Checkbox(
-              value: _completado, 
+              value: completado, 
               onChanged: (isChecked){
                 setState(() {
-                  _completado = isChecked!;
+                  completado = isChecked!;
                 });
               }
               
             ), 
             IconButton(
               onPressed: (){
+                print(txtDescEvent.text);
+                print(widget.fecha);
+                print(completado);
 
                 if(widget.eventModel == null){
                   database!.INSERTAR('tblEvents', {
                     'dscEvent' : txtDescEvent.text,
-                    //'dateEvent' : fecha,
-                    'complete': _completado
+                    'dateEvent' : widget.fecha,
+                    'complete': widget.eventModel!.complete
                   }).then((value){
-                  
                     var msg = value > 0 ? 'Evento Agregado.' : 'Ocurrio un error!';
                     final snackBar = SnackBar(content: Text(msg));
                     Navigator.pop(context);
@@ -73,12 +100,12 @@ class _ModalAddEventState extends State<ModalAddEvent> {
                     flags.setupdatePosts();
                   });
                 } else {
-                  database!.ACTUALIZAR('tblEvents', {
+                  database!.ACTUALIZARevent('tblEvents', {
                     'idEvent' : widget.eventModel!.idEvent,
                     'dscEvent' : txtDescEvent.text,
-                    //'dateEvent' : fecha,
-                    'complete' : _completado
-                  }).then((value) {
+                    'dateEvent' : widget.fecha,
+                    'complete' : widget.eventModel!.complete
+                  },'idEvent').then((value) {
                     var msg = value > 0 ? 'Evento Actualizado.' : 'Ocurrio un error!';
                     final snackBar = SnackBar(content: Text(msg));
                     Navigator.pop(context);

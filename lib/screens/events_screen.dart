@@ -19,6 +19,8 @@ class _eventsScreenState extends State<eventsScreen> {
   Widget build(BuildContext context) {
 
     FlagsProvider flags = Provider.of<FlagsProvider>(context);
+    String fecha;
+    DateTime date;
 
     return Scaffold(
        resizeToAvoidBottomInset: false,
@@ -37,7 +39,8 @@ class _eventsScreenState extends State<eventsScreen> {
                         confirmText: 'ADD',
                         onSubmit: (DateTime){
                           print(DateTime);
-                          openEventsDialog(context, null, DateTime.toString());
+                          fecha = DateTime.toString();
+                          openEventsDialog(context, null, fecha);
                         },
                         cancelText: '',
                       ) 
@@ -45,7 +48,7 @@ class _eventsScreenState extends State<eventsScreen> {
                   ),
                   Expanded(
                     child: Scaffold(
-                      body: flags.getupdatePosts() == true ? ListPostScreen() : ListPostScreen(),
+                      body: flags.getupdatePosts() == true ? ListEventScreen() : ListEventScreen(),
                     )
                   ),
                 ],
@@ -61,7 +64,8 @@ class _eventsScreenState extends State<eventsScreen> {
                         confirmText: 'ADD',
                         onSubmit: (DateTime){
                           print(DateTime);
-                          openEventsDialog(context, null, DateTime.toString());
+                          fecha = DateTime.toString();
+                          openEventsDialog(context, null, fecha);
                         },
                         cancelText: '',
                       ) 
@@ -69,7 +73,7 @@ class _eventsScreenState extends State<eventsScreen> {
                   ),
                   Expanded(
                     child: Scaffold(
-                      body: flags.getupdatePosts() == true ? ListPostScreen() : ListPostScreen(),
+                      body: flags.getupdatePosts() == true ? ListEventScreen() : ListEventScreen(),
                     )
                   ),
                 ],
@@ -85,7 +89,8 @@ class _eventsScreenState extends State<eventsScreen> {
                         confirmText: 'ADD',
                         onSubmit: (DateTime){
                           print(DateTime);
-                          openEventsDialog(context, null, DateTime.toString());
+                          fecha = DateTime.toString();
+                          openEventsDialog(context, null, fecha);
                         },
                         cancelText: '',
                       ) 
@@ -93,8 +98,7 @@ class _eventsScreenState extends State<eventsScreen> {
                   ),
                   Expanded(
                     child: Scaffold(
-                      body: flags.getupdatePosts() == true ? ListPostScreen() : ListPostScreen(),
-                    )
+                      body: flags.getupdatePosts() == true ? ListEventScreen() : ListEventScreen(),)
                   ),
                 ],
               ),

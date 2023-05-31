@@ -2,7 +2,7 @@ class EventModel {
   int? idEvent;
   String? dscEvent;
   String? dateEvent;
-  bool? complete;
+  int? complete;
 
   EventModel({this.idEvent,this.dscEvent,this.dateEvent,this.complete});
 

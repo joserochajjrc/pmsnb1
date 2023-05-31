@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+//import 'package:pmsnb1/firebase/email_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -33,6 +34,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     
   }
 
+  //EmailAuth emailAuth = EmailAuth();
+  TextEditingController conEmail = TextEditingController();
+  TextEditingController conPass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -51,6 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     final txtEmail = TextFormField(
+      controller: conEmail,
       decoration: const InputDecoration(
         label: Text('Email User'),
         enabledBorder: OutlineInputBorder()
@@ -65,6 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
 
     final txtPass = TextFormField(
+      controller: conPass,
       obscureText: true,
       decoration: const InputDecoration(
         label: Text('Password User'),
@@ -84,7 +91,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     final btnRregister = ElevatedButton(
       onPressed: (){
-        if (formKey.currentState!.validate()) {}
+        if (formKey.currentState!.validate()) {
+          //emailAuth.createUserWithEmailAndPassword(email: conEmail.text, password: conPass.text);
+        }
       }, 
       
       style: ElevatedButton.styleFrom(

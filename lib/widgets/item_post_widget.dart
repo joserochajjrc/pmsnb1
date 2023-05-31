@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pmsnb1/database/database_helper.dart';
+import 'package:pmsnb1/firebase/port_collection.dart';
 import 'package:pmsnb1/widgets/futures_modal.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,8 @@ import '../provider/flags_provider.dart';
 
 class ItemPostWidget extends StatelessWidget {
   ItemPostWidget({super.key, this.postModel});
+
+  PostCollection? postCollection = PostCollection();
 
   database_helper _database = database_helper();
   PostModel? postModel;
@@ -123,17 +126,18 @@ class ItemPostWidget extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: (){
-                _database.ELIMINAR('tblPost', postModel!.idPost!);
+                postCollection!.deletePost(postModel!.idPost!);
+                //_database.ELIMINAR('tblPost', postModel!.idPost!);
                 Navigator.pop(context);
                 flags!.setupdatePosts();
               }, 
-              child: Text('Aceptar')
+              child: const Text('Aceptar')
             ),
             TextButton(
               onPressed: (){
                 Navigator.pop(context);
               }, 
-              child: Text('Cancelar')
+              child: const Text('Cancelar')
             )
           ],
         );

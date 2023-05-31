@@ -30,8 +30,6 @@ class _ListEventScreenState extends State<ListEventScreen> {
   Widget build(BuildContext context) {
     var futPost = helper!.GETALLEVENT();
 
-    FlagsProvider flags = Provider.of<FlagsProvider>(context);
-
     return FutureBuilder(
       future: futPost,
       builder: (context, AsyncSnapshot<List<EventModel>> snapshot) {

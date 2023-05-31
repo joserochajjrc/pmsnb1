@@ -117,21 +117,21 @@ class ItemEventWidget extends StatelessWidget {
       context: context, 
       builder: (context){
         return AlertDialog(
-          content: const Text('¿Desea borrar el post?'),
+          content: const Text('¿Desea borrar el evento?'),
           actions: [
             TextButton(
               onPressed: (){
-                _database.ELIMINAR('tblPost', eventModel!.idEvent!);
+                _database.ELIMINARevent('tblEvents', eventModel!.idEvent!, 'idEvent');
                 Navigator.pop(context);
                 flags!.setupdatePosts();
               }, 
-              child: Text('Aceptar')
+              child: const Text('Aceptar')
             ),
             TextButton(
               onPressed: (){
                 Navigator.pop(context);
               }, 
-              child: Text('Cancelar')
+              child: const Text('Cancelar')
             )
           ],
         );

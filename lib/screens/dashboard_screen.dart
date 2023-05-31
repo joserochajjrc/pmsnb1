@@ -2,6 +2,7 @@ import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dynamic_themes/dynamic_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:pmsnb1/provider/flags_provider.dart';
+import 'package:pmsnb1/screens/list_post_cloud_screen.dart';
 import 'package:pmsnb1/screens/list_post_screen.dart';
 import 'package:pmsnb1/settings/styles.dart';
 import 'package:pmsnb1/widgets/futures_modal.dart';
@@ -17,89 +18,19 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  bool isDarkThemeEnable = false;
-
+  //bool isDarkThemeEnable = false;
+  void _toggleTheme(theme) {
+    final settings = Provider.of<ThemeProvider>(context, listen: false);
+    settings.toggleTheme(theme);
+  }
   
 
   @override
   Widget build(BuildContext context) {
-
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
     //final theme = Theme.of(context);
 
     final spaceHorizontal = SizedBox(height: 15,);
-
-    final btnLince = ElevatedButton(
-      onPressed: (){
-        const primaryColour = Colors.red;
-        setState(() {});
-      }, 
-      
-      style: ElevatedButton.styleFrom(
-        elevation: 10.0,
-        textStyle: const TextStyle(color: Colors.green, fontSize: 20),
-        fixedSize: const Size(800, 60)
-      ),
-      
-      child: const Text('Lince'),
-    );  
-
-    final btnBlue = ElevatedButton(
-      onPressed: (){
-        theme: ThemeData(
-          brightness: Brightness.dark,
-          primaryColor: Colors.lightBlue[800],
-          accentColor: Colors.cyan[600],
-
-          fontFamily: 'Georgia',
-
-          textTheme: TextTheme(
-            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
-          ),
-        );
-        setState(() {});
-      }, 
-      
-      style: ElevatedButton.styleFrom(
-        elevation: 10.0,
-        textStyle: const TextStyle(color: Colors.white, fontSize: 20),
-        fixedSize: const Size(800, 60)
-      ),
-      
-      child: const Text('Light Blue'),
-    );    
-
-    final btnRed = ElevatedButton(
-      onPressed: (){
-        //DynamicTheme.of(context)?.setTheme(AppThemes.LightRed);
-        setState(() {});
-      }, 
-      
-      style: ElevatedButton.styleFrom(
-        elevation: 10.0,
-        textStyle: const TextStyle(color: Colors.white, fontSize: 20),
-        fixedSize: const Size(800, 60)
-      ),
-      
-      child: const Text('Light Red'),
-    );  
-
-    final btnDark = ElevatedButton(
-      onPressed: (){
-        //DynamicTheme.of(context)?.setTheme(AppThemes.Dark);
-        setState(() {});
-      }, 
-      
-      style: ElevatedButton.styleFrom(
-        elevation: 10.0,
-        textStyle: const TextStyle(color: Colors.white, fontSize: 20),
-        fixedSize: const Size(800, 60)
-      ),
-      
-      child: const Text('Dark'),
-    );  
 
     final btnEvents = ElevatedButton.icon(
       onPressed: (){
@@ -117,7 +48,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text('TecBook :)'),),
-      body: flags.getupdatePosts() == true ? const ListPostScreen() : const ListPostScreen(),
+      //body: flags.getupdatePosts() == true ? const ListPostScreen() : const ListPostScreen(),
+      body: ListPostCloudScreen(),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Color.fromARGB(255, 2, 88, 5),
         onPressed: (){
@@ -143,12 +75,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               horizontalTitleGap: 0.0,
               leading: const Icon(Icons.movie),
               title: const Text(
-                'API Movies',
+                'Trending Movies',
                 style: TextStyle(fontSize: 16),
               ),
               trailing: const Icon(Icons.chevron_right),
             ),
-            DayNightSwitcher(
+            /*ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/detail');
+              },
+              horizontalTitleGap: 0.0,
+              leading: const Icon(Icons.movie_filter),
+              title: const Text(
+                'Detail Movies',
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing: const Icon(Icons.chevron_right),
+            ),*/
+            /*DayNightSwitcher(
                 isDarkModeEnabled: isDarkThemeEnable,
                 onStateChanged: ((isDarkModeEnabled) {
                   isDarkModeEnabled 
@@ -162,11 +106,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   });
 
                 }),
-              ),
-              //btnBlue,
-              //btnRed,
-              //btnDark,
-              btnLince,
+              ),*/
+              DropdownButtonFormField<String>(
+                  isExpanded: true,
+                  value: theme.getTheme(),
+                  decoration: const InputDecoration(
+                    labelText: 'Tema',
+                    prefixIcon: Icon(Icons.color_lens),
+                  ),
+                  items: <String>['light','dark','red', 'eco'].map((i) {
+                    return DropdownMenuItem(
+                        value: i,
+                        child: Text(
+                          i,
+                        ));
+                  }).toList(),
+                  hint: const Text('Tema'),
+                  //padding: const EdgeInsets.symmetric(horizontal: 10),
+                  onChanged: (value) {
+                    if (value == 'light') {
+                      _toggleTheme('light');
+                    }
+                    if (value == 'dark') {
+                      _toggleTheme('dark');
+                    }
+                    if (value == 'red') {
+                      _toggleTheme('red');
+                    }
+                    if (value == 'eco') {
+                      _toggleTheme('eco');
+                    }
+                  }),
               spaceHorizontal,
               btnEvents
           ],
