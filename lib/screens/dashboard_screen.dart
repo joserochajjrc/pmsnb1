@@ -1,6 +1,8 @@
 import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:dynamic_themes/dynamic_themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pmsnb1/firebase/email_auth.dart';
 import 'package:pmsnb1/provider/flags_provider.dart';
 import 'package:pmsnb1/screens/list_post_cloud_screen.dart';
 import 'package:pmsnb1/screens/list_post_screen.dart';
@@ -23,11 +25,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final settings = Provider.of<ThemeProvider>(context, listen: false);
     settings.toggleTheme(theme);
   }
+
+  EmailAuth emailAuth = EmailAuth();
   
 
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    final user = FirebaseAuth.instance.currentUser!;
     //final theme = Theme.of(context);
 
     final spaceHorizontal = SizedBox(height: 15,);
@@ -61,13 +66,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
       drawer: Drawer(
         child: ListView(
           children: [
-            const UserAccountsDrawerHeader(
+            UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage('https://raw.githubusercontent.com/obliviate-dan/Login-Form/master/img/avatar.png'),
+                 backgroundImage: user.photoURL != null
+                      ? NetworkImage(user.photoURL!)
+                      : const NetworkImage(
+                          'https://raw.githubusercontent.com/obliviate-dan/Login-Form/master/img/avatar.png'),
               ),
-              accountName: Text('José Juan Rocha Cisneros'), 
-              accountEmail: Text('19031005@itcelaya.edu.mx')
-            ),
+              accountName: user.displayName != null
+                    ? Text(user.displayName!)
+                    : Container(),
+                accountEmail:
+                    user.email != null ? Text(user.email!) : Container(),
+                onDetailsPressed: () {
+                  Navigator.pushNamed(context, '/user');
+                },
+              ),
+              ListTile(
+                onTap: () async {
+                  await emailAuth.signOut();
+                  Navigator.pushNamed(context, '/login');
+                },
+                horizontalTitleGap: 0.0,
+                leading: const Icon(Icons.add_to_home_screen),
+                title: const Text(
+                  'Cerrar Sesión',
+                  style: TextStyle(fontSize: 16),
+                ),
+                trailing: const Icon(Icons.chevron_right),
+              ),
             ListTile(
               onTap: () {
                 Navigator.pushNamed(context, '/popular');
@@ -76,6 +103,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               leading: const Icon(Icons.movie),
               title: const Text(
                 'Trending Movies',
+                style: TextStyle(fontSize: 16),
+              ),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/pokemon');
+              },
+              horizontalTitleGap: 0.0,
+              leading: const Icon(Icons.sports_baseball_outlined),
+              title: const Text(
+                'Pokemon',
                 style: TextStyle(fontSize: 16),
               ),
               trailing: const Icon(Icons.chevron_right),
